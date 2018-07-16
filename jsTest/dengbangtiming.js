@@ -191,7 +191,7 @@ let testArr = [9];
 testArr.push([80, 80]);
 c(testArr);
 
-c(generateArrayEveryFourItem(l.range(0, 22)))
+c(generateArrayEveryFourItem(l.range(0, 22)));
 
 
 const checkboxSelectedArray = (selected, newSelected) => {
@@ -215,9 +215,9 @@ const checkboxSelectedArray = (selected, newSelected) => {
   return res;
 };
 
-c(checkboxSelectedArray([], 8))
-c(checkboxSelectedArray([8, 18], 8))
-c(checkboxSelectedArray([80, 18], 8))
+c(checkboxSelectedArray([], 8));
+c(checkboxSelectedArray([8, 18], 8));
+c(checkboxSelectedArray([80, 18], 8));
 
 const generateAbsoluteObj = arr => {
   let ret = {};
@@ -228,34 +228,167 @@ const generateAbsoluteObj = arr => {
   return ret;
 };
 
-c(generateAbsoluteObj([2, 38, 0, 10])['0'])
-c(generateAbsoluteObj([2, 38, 0, 10])['20'])
+c(generateAbsoluteObj([2, 38, 0, 10])['0']);
+c(generateAbsoluteObj([2, 38, 0, 10])['20']);
 
 const setActive = (arr, classificationId) => {
   arr.forEach(v => {
-    if (v['classificationId'] === classificationId) {
-      v.active = true
-    }
-  })
+    v.forEach(val => {
+      if (val['classificationId'] === classificationId) {
+        val.active = true
+      }
+    })
+  });
   return arr;
-}
+};
 
 const type3Arr = [
-  {
-    classificationId: 80,
-    name: 'a',
-  },
-  {
-    classificationId: 70,
-    name: 'a',
-  },
-  {
-    classificationId: 50,
-    name: 'a',
-  },
-  {
-    classificationId: 83,
-    name: 'a',
-  },
+  [
+    {
+      classificationId: 80,
+      name: 'a',
+    },
+    {
+      classificationId: 70,
+      name: 'a',
+    },
+    {
+      classificationId: 50,
+      name: 'a',
+    },
+    {
+      classificationId: 83,
+      name: 'a',
+    },
+  ],
+  [
+    {
+      classificationId: 180,
+      name: 'ao',
+    },
+    {
+      classificationId: 170,
+      name: 'app',
+    },
+    {
+      classificationId: 150,
+      name: 'j',
+    },
+    {
+      classificationId: 183,
+      name: 'bkk',
+    },
+  ],
 ];
-c(setActive(type3Arr, 70))
+c(setActive(type3Arr, 70));
+
+const toggleActive = (arr, classificationId) => {
+  arr.forEach(v => {
+    v.forEach(val => {
+      if (val['classificationId'] === classificationId) {
+        val.active = !val.active;
+      }
+    })
+  });
+  return arr;
+};
+
+// c(toggleActive(type3Arr, 70))
+c(toggleActive(type3Arr, 150));
+c(toggleActive(type3Arr, 150));
+
+const resetActive = arr => {
+  arr.forEach(v => {
+    v.forEach(val => {
+      val.active = false;
+    })
+  });
+  return arr;
+};
+c(resetActive(type3Arr));
+
+c([].concat(...type3Arr));
+
+const omit = (o, keysArr) => {
+  let ret = {};
+  for (let k in o) {
+    if (keysArr.indexOf(k) === -1) {
+      ret[k] = o[k]
+    }
+  }
+  return ret;
+};
+
+c(omit(TAB_TITLE[0], ['type', 'label']));
+
+const pick = (o, keysArr) => {
+  let ret = {};
+  for (let k in o) {
+    if (keysArr.indexOf(k) > -1) {
+      ret[k] = o[k]
+    }
+  }
+  return ret;
+};
+
+c(pick(TAB_TITLE[0], ['type', 'label']));
+
+c([...[8, 2]]);
+
+const userInfoImage = key => ([
+  key,
+  {
+    image: `../images/${key}.png`,
+  },
+]);
+
+const USERINFO_ARR = [
+  [
+    '职位',
+    'position',
+  ],
+  [
+    '手机',
+    'mobileNum',
+  ],
+  [
+    '电话',
+    'telephoneNum',
+  ],
+  [
+    '微信号',
+    'wechatNum',
+  ],
+  [
+    'qq号',
+    'qq',
+  ],
+  [
+    '邮箱',
+    'email',
+  ],
+];
+c(userInfoImage('qq'));
+
+c(l.upperCase('advertisement'))
+
+
+const QQ_MAP_DOMAIN = 'http://apis.map.qq.com/';
+const QQ_MAP_BASE_URL = 'ws/geocoder/v1/';
+
+const QQ_MAP_KEY = 'UZEBZ-56XLX-TR54J-73IBB-RVFZ2-47FF2';
+/**
+ * 根据经纬度取得位置中文信息
+ */
+const qqMapGetLocationByDegree = (payload) =>
+  Server.list(combineURL(QQ_MAP_DOMAIN, QQ_MAP_BASE_URL), payload);
+// 'http://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + ',' + longitude + '&key=UZEBZ-56XLX-TR54J-73IBB-RVFZ2-47FF2';
+
+/**
+ * 根据位置中文取得经纬度
+ */
+const qqMapGetLocationByName = (payload) =>
+  Server.qqMap(payload);
+// 'http://apis.map.qq.com/ws/geocoder/v1/?address=' + text + '&key=UZEBZ-56XLX-TR54J-73IBB-RVFZ2-47FF2';
+c(l.snakeCase('fromShareProductId'))
+
